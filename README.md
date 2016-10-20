@@ -28,10 +28,10 @@ aws dynamodb create-table \
     http://localhost:8000 \
   --table-name dev-locker \
   --attribute-definitions \
-    AttributeName=mode,AttributeType=S \
+    AttributeName=partition,AttributeType=S \
     AttributeName=created,AttributeType=N \
   --key-schema \
-    AttributeName=mode,KeyType=HASH \
+    AttributeName=partition,KeyType=HASH \
     AttributeName=created,KeyType=RANGE \
   --provisioned-throughput \
       ReadCapacityUnits=1,WriteCapacityUnits=1
