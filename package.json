@@ -1,0 +1,12 @@
+{
+  "name": "onclo-server",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jabaraster/onclo-server.git"
+  },
+  "devDependencies": {
+    "async": "^2.1.2",
+    "aws-sdk": "^2.6.10",
+    "mocha": "^3.1.2"
+  }
+}

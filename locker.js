@@ -46,8 +46,17 @@ module.exports = {
     getMode: (event, context, callback) => {
         const param = {
             TableName: `${event.requestContext.stage}-locker`,
+            KeyConditionExpression: '#part = :partition',
+            ExpressionAttributeNames: {
+                '#part': 'partition',
+            },
+            ExpressionAttributeValues: {
+                ':partition': {S:'mode'},
+            },
+            ScanIndexForward: false,
+            Limit: 1,
         };
-        dynamodb.scan(param, (err, data) => {
+        dynamodb.query(param, (err, data) => {
             if (err) {
                 response(callback, 500, {
                     error: err,
