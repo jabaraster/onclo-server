@@ -1,7 +1,10 @@
 'use strict';
 
 const AWS = require('aws-sdk');
-const dynamodb = new AWS.DynamoDB({region: 'ap-northeast-1'});
+const dynamodb = new AWS.DynamoDB({
+        region: 'ap-northeast-1',
+        endpoint: 'http://localhost:8000',
+});
 
 const response = (callback, statusCode, body) => {
     callback(null, {
@@ -57,9 +60,6 @@ module.exports = {
                 });
                 return;
             }
-                console.log(data.Items[0].created.N);
-                console.log(data.Items[1].created.N);
-                console.log(data.Items[2].created.N);
             response(callback, 200, {
                 mode: data.Items[0].mode.S,
             });
