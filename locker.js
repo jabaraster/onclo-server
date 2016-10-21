@@ -2,9 +2,13 @@
 
 const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB({
-        region: 'ap-northeast-1',
-        endpoint: 'http://localhost:8000',
+    region: 'ap-northeast-1',
 });
+
+const db = (context) => {
+    const c = context.DynamoDB;
+    return c ? c : dynamodb;
+};
 
 const response = (callback, statusCode, body) => {
     callback(null, {
@@ -13,7 +17,7 @@ const response = (callback, statusCode, body) => {
     });
 };
 
-const setMode = (event, mode, callback) => {
+const setMode = (event, context, mode, callback) => {
     const param = {
         TableName: `${event.requestContext.stage}-locker`,
         Item: {
@@ -22,7 +26,7 @@ const setMode = (event, mode, callback) => {
             mode: {'S': mode},
         },
     };
-    dynamodb.putItem(param, (err, data) => {
+    db(context).putItem(param, (err, data) => {
         if (err) {
             response(callback, 500, {
                 error: err,
@@ -38,10 +42,10 @@ const setMode = (event, mode, callback) => {
 
 module.exports = {
     setModeOpen: (event, context, callback) => {
-        setMode(event, 'open', callback);
+        setMode(event, context, 'open', callback);
     },
     setModeClose: (event, context, callback) => {
-        setMode(event, 'close', callback);
+        setMode(event, context, 'close', callback);
     },
     getMode: (event, context, callback) => {
         const param = {
@@ -56,7 +60,7 @@ module.exports = {
             ScanIndexForward: false,
             Limit: 1,
         };
-        dynamodb.query(param, (err, data) => {
+        db(context).query(param, (err, data) => {
             if (err) {
                 response(callback, 500, {
                     error: err,

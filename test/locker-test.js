@@ -1,12 +1,19 @@
 'use strict';
 const async = require('async');
 const assert = require('assert');
+const AWS = require('aws-sdk');
 const sut = require('../locker');
 
 const event = {
     requestContext: {
         stage: 'dev',
     },
+};
+const context = {
+    DynamoDB: new AWS.DynamoDB({
+        region: 'ap-northeast-1',
+        endpoint: 'http://localhost:8000',
+    }),
 };
 
 describe('locker', () => {
@@ -19,13 +26,12 @@ const done = () => {
     var ret = 'unset';
     const test = [
         (callback) => {
-            sut.setModeOpen(event, null, (_, resp) => {
-                callback();
+            sut.setModeOpen(event, context, (_, resp) => {
+                callback(null, {});
             });
         },
         (callback) => {
-                    console.log(555);
-            sut.getMode(event, null, (_, resp) => {
+            sut.getMode(event, context, (_, resp) => {
                 callback(null, resp);
             });
         }
@@ -56,9 +62,6 @@ const done = () => {
     ];
     async.series(test, (err, results) => {
         ret = results;
-        console.log(3333);
-        console.log(err);
-        console.log(result);
     });
     return ret;
 };
