@@ -6,6 +6,11 @@ provider:
   region: ap-northeast-1
 
 functions:
+  getMeta:
+    memory: 256
+    handler: meta.getMeta
+    events:
+      - http: GET meta/index
   setModeOpen:
     memory: 256
     handler: locker.setModeOpen
