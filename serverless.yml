@@ -4,25 +4,30 @@ provider:
   name: aws
   runtime: nodejs4.3
   region: ap-northeast-1
+  memorySize: 128
 
 functions:
+  rand:
+    handler: calendar.getRandom
+    events:
+      - http: GET calednar/random
+  calendar:
+    handler: calendar.getMonthSchedule
+    events:
+      - http: GET calednar/{userId}/schedule/{year}/{month}/index
   getMeta:
-    memory: 256
     handler: meta.getMeta
     events:
       - http: GET meta/index
   setModeOpen:
-    memory: 256
     handler: locker.setModeOpen
     events:
       - http: POST locker/mode/actions/open
   setModeClose:
-    memory: 256
     handler: locker.setModeClose
     events:
       - http: POST locker/mode/actions/close
   getLockerMode:
-    memory: 256
     handler: locker.getMode
     events:
       - http: GET locker/mode
