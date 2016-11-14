@@ -7,18 +7,6 @@ provider:
   memorySize: 128
 
 functions:
-  rand:
-    handler: calendar.getRandom
-    events:
-      - http: GET calednar/random
-  calendar:
-    handler: calendar.getMonthSchedule
-    events:
-      - http: GET calednar/{userId}/schedule/{year}/{month}/index
-  getMeta:
-    handler: meta.getMeta
-    events:
-      - http: GET meta/index
   setModeOpen:
     handler: locker.setModeOpen
     events:
