@@ -10,15 +10,24 @@ functions:
   setModeOpen:
     handler: locker.setModeOpen
     events:
-      - http: POST locker/mode/actions/open
+      - http:
+          path: locker/mode/actions/open
+          method: POST
+          cors: true
   setModeClose:
     handler: locker.setModeClose
     events:
-      - http: POST locker/mode/actions/close
+      - http:
+          path: locker/mode/actions/close
+          method: POST
+          cors: true
   getLockerMode:
     handler: locker.getMode
     events:
-      - http: GET locker/mode
+      - http:
+          path: locker/mode
+          method: GET
+          cors: true
 
 resources:
   Resources:
