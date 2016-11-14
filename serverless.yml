@@ -4,23 +4,30 @@ provider:
   name: aws
   runtime: nodejs4.3
   region: ap-northeast-1
+  memorySize: 128
 
 functions:
   setModeOpen:
-    memory: 256
     handler: locker.setModeOpen
     events:
-      - http: POST locker/mode/actions/open
+      - http:
+          path: locker/mode/actions/open
+          method: POST
+          cors: true
   setModeClose:
-    memory: 256
     handler: locker.setModeClose
     events:
-      - http: POST locker/mode/actions/close
+      - http:
+          path: locker/mode/actions/close
+          method: POST
+          cors: true
   getLockerMode:
-    memory: 256
     handler: locker.getMode
     events:
-      - http: GET locker/mode
+      - http:
+          path: locker/mode
+          method: GET
+          cors: true
 
 resources:
   Resources:
